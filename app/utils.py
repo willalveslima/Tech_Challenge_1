@@ -1,6 +1,7 @@
 """funçoes auxiliares"""
 import pandas as pd
 
+
 def ler_base_dados_csv(url_base_dados_csv: str) -> pd.DataFrame:
     """
     ler_base_dados_csv Realiza leitura de um arquivo CSV em uma URL e retorna um DataFrame.

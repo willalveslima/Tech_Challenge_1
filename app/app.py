@@ -1,12 +1,14 @@
 """API com autenticação em fastapi."""
-from fastapi import FastAPI, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from pydantic import BaseModel
-from typing import Optional
 from datetime import datetime, timedelta
+from typing import Optional
+
+from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
+from pydantic import BaseModel
+
 from app.constants import URL_BASE_PRODUCAO
-from app.utils import ler_base_dados_csv, convertar_para_json
+from app.utils import convertar_para_json, ler_base_dados_csv
 
 # Configurações
 SECRET_KEY = "B1gS3cr3tK3y"

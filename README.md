@@ -41,4 +41,4 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 
 ## Contato
 
-Para mais informações, entre em contato com [seu-email@dominio.com].
+Para mais informações, entre em contato com [w.alves.lima@gmail.com].
