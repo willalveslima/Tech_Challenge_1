@@ -1,0 +1,27 @@
+repos:
+- repo: local
+  hooks:
+  - id: isort
+    name: Run isort
+    types: [python]
+    exclude: ^tests/
+    entry: isort
+    language: system
+  - id: pydocstyle
+    name: Roda pydocstyle
+    types: [python]
+    exclude: ^tests/
+    entry: pydocstyle
+    language: system
+  - id: flake8
+    name: Roda flake8
+    types: [python]
+    exclude: ^tests/
+    entry: flake8
+    language: system
+  - id: pytest
+    name: Roda pytest
+    entry: pytest
+    language: system
+    pass_filenames: false
+    always_run: true
