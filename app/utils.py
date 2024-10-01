@@ -14,14 +14,14 @@ def ler_base_dados_csv(url_base_dados_csv: str) -> pd.DataFrame:
     return pd.read_csv(url_base_dados_csv, sep=";")
 
 
-def convertar_para_json(df: pd.DataFrame) -> str:
-    """convertar_para_json Converte um DataFrame em um JSON."""
+def converter_para_json(df: pd.DataFrame) -> str:
+    """converter_para_json Converte um DataFrame em um JSON."""
     return df.to_json(orient="records")
 
 
 def consultar_base(base: BASE) -> str:
     """Consulta a base de dados."""
-    return convertar_para_json(ler_base_dados_csv(base.url))
+    return converter_para_json(ler_base_dados_csv(base.url))
 
 
 def erro_500(e: Exception, base: BASE) -> HTTPException:

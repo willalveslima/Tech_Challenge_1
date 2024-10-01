@@ -1,6 +1,6 @@
 import unittest
 import pandas as pd
-from app.utils import ler_base_dados_csv, convertar_para_json
+from app.utils import ler_base_dados_csv, converter_para_json
 from unittest.mock import patch, mock_open
 
 class TestUtils(unittest.TestCase):
@@ -25,7 +25,7 @@ class TestUtils(unittest.TestCase):
             df = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})
             expected_json = '[{"col1":1,"col2":3},{"col1":2,"col2":4}]'
 
-            result = convertar_para_json(df)
+            result = converter_para_json(df)
 
             # Assert that the JSON output is as expected
             self.assertEqual(result, expected_json)
@@ -34,7 +34,7 @@ class TestUtils(unittest.TestCase):
             df = pd.DataFrame()
             expected_json = '[]'
 
-            result = convertar_para_json(df)
+            result = converter_para_json(df)
 
             # Assert that the JSON output is as expected for an empty DataFrame
             self.assertEqual(result, expected_json)
@@ -59,7 +59,7 @@ class TestUtils(unittest.TestCase):
         df = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})
         expected_json = '[{"col1":1,"col2":3},{"col1":2,"col2":4}]'
 
-        result = convertar_para_json(df)
+        result = converter_para_json(df)
 
         # Assert that the JSON output is as expected
         self.assertEqual(result, expected_json)
