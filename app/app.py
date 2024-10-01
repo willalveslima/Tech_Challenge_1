@@ -3,6 +3,7 @@ from fastapi import FastAPI
 
 from app.constants import BASE
 from app.utils import consultar_base, erro_500
+from app.model import Consultar,BASE2
 
 app = FastAPI()
 
@@ -63,3 +64,15 @@ async def consultar_processamento() -> str:
         return consultar_base(BASE.PROCESSAMENTO)
     except Exception as e:
         erro_500(e, BASE.PROCESSAMENTO)
+
+
+@app.get("/teste",  summary="Consulta a Base de Produção",
+         description="Consulta a Base de Produção de vinhos da Empraba " +
+         "e retorna os dados em formato JSON.")
+async def teste() -> str:
+    """Consulta da Base de Produção, retorna os dados em formato JSON."""
+    try:
+        consulta = Consultar(BASE2.PRODUCAO)
+        return consulta.executa()
+    except Exception as e:
+        erro_500(e, BASE.PRODUCAO)

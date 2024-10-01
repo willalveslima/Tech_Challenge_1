@@ -4,7 +4,7 @@ import requests
 
 # URLs das APIs
 lista = ["producao", "processamento",
-         "comercializacao", "importacao", "exportacao"]
+         "comercializacao", "importacao", "exportacao","teste"]
 url = 'http://127.0.0.1:8000/'
 
 
