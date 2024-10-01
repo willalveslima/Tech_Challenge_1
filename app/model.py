@@ -30,6 +30,9 @@ class TratamentoProducao():
 
         # Transformar as colunas a partir da 3ª até a última em valores
         df = df.melt(id_vars=id_vars, value_vars=value_vars, var_name='ANO', value_name='LITROS')
+
+        # Renomear as colunas 'control' para 'Tipo' e 'produto' para 'PRODUTO'
+        df = df.rename(columns={'control': 'Tipo', 'produto': 'PRODUTO'})
        
         return df
 
