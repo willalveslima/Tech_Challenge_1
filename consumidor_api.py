@@ -3,8 +3,8 @@ import pandas as pd
 import requests
 
 # URLs das APIs
-lista = ["producao", "processamento",
-         "comercializacao", "importacao", "exportacao","teste"]
+lista = ["producao", "processamento", "comercializacao", 
+         "importacao", "exportacao", "teste","exportacao_suco"]
 url = 'http://127.0.0.1:8000/'
 
 
