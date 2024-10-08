@@ -15,7 +15,7 @@ class TratamentoColunaAnoSimples():
             r'^es_.*$': 'ESPUMANTE',
             r'^vi_.*$': 'VINHO FINO',
             r'^ve_.*$': 'VINHO ESPECIAIS',
-            r'^ti_.*$': 'TINTO',
+            r'^ti_.*$': 'TINTAS',
             r'^br_.*$': ('BRANCAS E ROSADAS' if 'BRANCAS E ROSADAS'
                          in df['control'].values else 'BRANCAS'),
             r'^ou_.*$': 'OUTROS',
