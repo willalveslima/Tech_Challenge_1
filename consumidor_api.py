@@ -1,4 +1,5 @@
 """Exemplo de consumidor da API Rodando localmente."""
+
 import pandas as pd
 import requests
 
@@ -21,16 +22,16 @@ lista = [
     "exportacao_suco",
 ]
 
-url = 'http://127.0.0.1:8000/'
+URL = "http://127.0.0.1:8000/"
 
 
 for endpoint in lista:
-    print("Consultando base {}".format(endpoint))
-    print("URL: {}".format(url + endpoint))
+    print(f"Consultando base {endpoint}")
+    print(f"URL: {URL + endpoint}")
 
     try:
         # Fazendo a requisição GET para a API
-        response = requests.get(url + endpoint)
+        response = requests.get(URL + endpoint, timeout=10)
 
         # Verificando se a requisição foi bem-sucedida
         if response.status_code == 200:
@@ -41,8 +42,10 @@ for endpoint in lista:
             # Exibindo o head do DataFrame
             print(df.head())
         else:
-            print(f"Erro ao acessar a API: {response.status_code} {response.text}")
-        print("*"*80 +"\n")
-    except Exception as e:
+            print(
+                f"Erro ao acessar a API: {response.status_code} \
+                    {response.text}")
+        print("*" * 80 + "\n")
+    except requests.exceptions.RequestException as e:
         print(f"Erro ao acessar a API: {e}")
-        print("*"*80 +"\n")
+        print("*" * 80 + "\n")
