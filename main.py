@@ -2,21 +2,27 @@
 
 import logging
 import os
+from logging.handlers import TimedRotatingFileHandler
 
 import uvicorn
 
 # Configurar o diretório de logs
-log_directory = "storage/logs"
-if not os.path.exists(log_directory):
-    os.makedirs(log_directory)
+LOG_DIRECTORY = "storage/logs"
+if not os.path.exists(LOG_DIRECTORY):
+    os.makedirs(LOG_DIRECTORY)
+
+# Configurar o TimedRotatingFileHandler
+log_file = os.path.join(LOG_DIRECTORY, "app.log")
+handler = TimedRotatingFileHandler(
+    log_file, when="midnight", interval=1, backupCount=2)
+handler.setFormatter(logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
 
 # Configurar o logging
-log_file = os.path.join(log_directory, "app.log")
 logging.basicConfig(
     level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler(log_file),
+        handler,
         logging.StreamHandler()
     ]
 )

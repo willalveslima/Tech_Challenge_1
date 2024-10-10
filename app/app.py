@@ -4,10 +4,10 @@ import logging
 
 from fastapi import FastAPI, Request
 
-from app.model import BASE, Consultar
+from app.consulta_bases import BASE, Consultar
 
 # Criar um logger separado para as requisições HTTP
-http_logger = logging.getLogger("http_logger")
+http_logger = logging.getLogger("http.logger")
 logger = logging.getLogger("main.app")
 # http_handler = logging.FileHandler("storage/logs/http_requests.log")
 # http_handler.setFormatter(logging.Formatter("%(asctime)s - %(message)s"))

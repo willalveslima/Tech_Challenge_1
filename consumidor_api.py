@@ -31,7 +31,7 @@ for endpoint in lista:
 
     try:
         # Fazendo a requisição GET para a API
-        response = requests.get(URL + endpoint, timeout=10)
+        response = requests.get(URL + endpoint, timeout=30)
 
         # Verificando se a requisição foi bem-sucedida
         if response.status_code == 200:

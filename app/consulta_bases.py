@@ -1,12 +1,14 @@
 """Informações das Bases de dados e módulo de Consulta."""
 
+import io
 import logging
 from enum import Enum
 
 import pandas as pd
+import requests
 from fastapi import HTTPException
 
-from app.tratamento import TratamentoColunaAnoDuplo, TratamentoColunaAnoSimples
+from app.formata_dfs import FormataColunaAnoDuplo, FormataColunaAnoSimples
 
 logger = logging.getLogger("main.app.model")
 
@@ -18,103 +20,103 @@ class BASE(Enum):
         "http://vitibrasil.cnpuv.embrapa.br/download/Producao.csv",
         "Base de Produção",
         ";",
-        TratamentoColunaAnoSimples(),
+        FormataColunaAnoSimples(),
     )
     PROCESSAMENTO_VINIFERAS = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaViniferas.csv",
         "Base de Processamento Viniferas",
         ";",
-        TratamentoColunaAnoSimples(),
+        FormataColunaAnoSimples(),
     )
     PROCESSAMENTO_AMERICANAS = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaAmericanas.csv",
         "Base de Processamento Americanas",
         "\t",
-        TratamentoColunaAnoSimples(),
+        FormataColunaAnoSimples(),
     )
     PROCESSAMENTO_MESA = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaMesa.csv",
         "Base de Processamento Uvas de Mesa",
         "\t",
-        TratamentoColunaAnoSimples(),
+        FormataColunaAnoSimples(),
     )
     PROCESSAMENTO_SEM_CLASSI = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaSemclass.csv",
         "Base de Sem Classificação",
         "\t",
-        TratamentoColunaAnoSimples(),
+        FormataColunaAnoSimples(),
     )
     COMERCIALIZACAO = (
         "http://vitibrasil.cnpuv.embrapa.br/download/Comercio.csv",
         "Base de Comercialização",
         ";",
-        TratamentoColunaAnoSimples(),
+        FormataColunaAnoSimples(),
     )
     IMPORTACAO_VINHOS = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ImpVinhos.csv",
         "Base de Importação Vinhos de Mesa",
         ";",
-        TratamentoColunaAnoDuplo(),
+        FormataColunaAnoDuplo(),
     )
     IMPORTACAO_ESPUMANTES = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ImpEspumantes.csv",
         "Base de Importação Espumantes",
         ";",
-        TratamentoColunaAnoDuplo(),
+        FormataColunaAnoDuplo(),
     )
     IMPORTACAO_UVAS = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ImpFrescas.csv",
         "Base de Importação Uvas Frescas",
         ";",
-        TratamentoColunaAnoDuplo(),
+        FormataColunaAnoDuplo(),
     )
     IMPORTACAO_PASSAS = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ImpPassas.csv",
         "Base de Importação Uvas Passas",
         ";",
-        TratamentoColunaAnoDuplo(),
+        FormataColunaAnoDuplo(),
     )
     IMPORTACAO_SUCO = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ImpSuco.csv",
         "Base de Importação Suco de uva",
         ";",
-        TratamentoColunaAnoDuplo(),
+        FormataColunaAnoDuplo(),
     )
 
     EXPORTACAO_VINHO = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ExpVinho.csv",
         "Base de Exportação Vinho de Mesa",
         ";",
-        TratamentoColunaAnoDuplo(),
+        FormataColunaAnoDuplo(),
     )
 
     EXPORTACAO_ESPUMANTE = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ExpEspumantes.csv",
         "Base de Exportação Espumante",
         ";",
-        TratamentoColunaAnoDuplo(),
+        FormataColunaAnoDuplo(),
     )
 
     EXPORTACAO_UVA = (
         "http://vitibrasil.cnpuv.embrapa.br/download/ExpUva.csv",
         "Base de Exportação Uvas Frescas",
         ";",
-        TratamentoColunaAnoDuplo(),
+        FormataColunaAnoDuplo(),
     )
 
     EXPORTACAO_SUCO = (
-        "http://127.0.0.1/ExpSuco.csv",
+        "http://vitibrasil.cnpuv.embrapa.br/download/ExpSuco.csv",
         "Base de Exportação Suco de Uva",
         ";",
-        TratamentoColunaAnoDuplo(),
+        FormataColunaAnoDuplo(),
     )
 
-    def __init__(self, url, descricao, sep, tratamento):
+    def __init__(self, url, descricao, sep, formatacao):
         """Construtor."""
         self.url = url
         self.descricao = descricao
         self.sep = sep
-        self.tratamento = tratamento
+        self.formatacao = formatacao
 
 
 class Consultar:
@@ -130,9 +132,18 @@ class Consultar:
         logger.debug("Consultar.executa(): Acessando url: %s", self.base.url)
         try:
 
-            self.df = pd.read_csv(self.base.url, sep=self.base.sep)
-            if self.base.tratamento is not None:
-                self.df = self.base.tratamento.tratar(self.df)
+            response = requests.get(self.base.url, timeout=30)
+            if response.status_code != 200:
+                logger.error("%s Consulta falhou.", response.status_code)
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"Erro ao acessar a URL {self.base.url}.",
+                )
+            csv = response.content
+            self.df = pd.read_csv(io.StringIO(csv.decode('utf-8')),
+                                  sep=self.base.sep)
+            if self.base.formatacao is not None:
+                self.df = self.base.formatacao.formatar(self.df)
             logger.debug(
                 "Consultar.executa(): Consulta realizada com sucesso." +
                 "Retornando JSON."

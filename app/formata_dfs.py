@@ -7,10 +7,10 @@ import pandas as pd
 logger = logging.getLogger("main.app.tratamento")
 
 
-class TratamentoColunaAnoSimples:
+class FormataColunaAnoSimples:
     """tranforma tabela no formato wide em long (ANO e QTD)."""
 
-    def tratar(self, df: pd.DataFrame) -> pd.DataFrame:
+    def formatar(self, df: pd.DataFrame) -> pd.DataFrame:
         """Trata as colunas do DataFrame."""
         logger.debug(
             "TratamentoColunaAnoSimples().tratar(): " +
@@ -85,10 +85,10 @@ class TratamentoColunaAnoSimples:
         return df
 
 
-class TratamentoColunaAnoDuplo:
+class FormataColunaAnoDuplo:
     """tranforma tabela no formato wide em long (ANO e KG e US$)."""
 
-    def tratar(self, df: pd.DataFrame) -> pd.DataFrame:
+    def formatar(self, df: pd.DataFrame) -> pd.DataFrame:
         """Trata as colunas do DataFrame."""
         logger.debug(
             "TratamentoColunaAnoDuplo().tratar(): \
