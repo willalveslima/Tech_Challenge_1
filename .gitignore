@@ -315,3 +315,6 @@ arquivos
 scripts_usados/
 
 *.ipynb
+
+# banco de dados / cache
+*.sqlite

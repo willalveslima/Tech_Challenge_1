@@ -5,12 +5,22 @@ import logging
 from enum import Enum
 
 import pandas as pd
-import requests
 from fastapi import HTTPException
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+from requests_cache import CachedSession
 
 from app.formata_dfs import FormataColunaAnoDuplo, FormataColunaAnoSimples
 
 logger = logging.getLogger("main.app.model")
+
+retry_strategy = Retry(
+    total=30,
+    status_forcelist=[429, 500, 502, 503, 504],
+    backoff_factor=0.1,
+
+)
+adapter = HTTPAdapter(max_retries=retry_strategy)
 
 
 class BASE(Enum):
@@ -132,7 +142,10 @@ class Consultar:
         logger.debug("Consultar.executa(): Acessando url: %s", self.base.url)
         try:
 
-            response = requests.get(self.base.url, timeout=30)
+            http = CachedSession(expire_after=36000)
+            http.mount("http://", adapter)
+            http.headers.update({"User-Agent": "Mozilla/5.0"})
+            response = http.get(self.base.url, timeout=30, stream=True)
             if response.status_code != 200:
                 logger.error("%s Consulta falhou.", response.status_code)
                 raise HTTPException(
@@ -140,6 +153,7 @@ class Consultar:
                     detail=f"Erro ao acessar a URL {self.base.url}.",
                 )
             csv = response.content
+
             self.df = pd.read_csv(io.StringIO(csv.decode('utf-8')),
                                   sep=self.base.sep)
             if self.base.formatacao is not None:
