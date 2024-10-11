@@ -4,7 +4,7 @@ import logging
 
 import pandas as pd
 
-logger = logging.getLogger("main.app.tratamento")
+logger = logging.getLogger("main.app.utils.formata_dfs")
 
 
 class FormataColunaAnoSimples:

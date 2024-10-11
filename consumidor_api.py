@@ -40,7 +40,8 @@ for endpoint in lista:
             df = pd.read_json(data)
 
             # Exibindo o head do DataFrame
-            print(df.head())
+            print(df.head(10))
+
         else:
             print(
                 f"Erro ao acessar a API: {response.status_code} \

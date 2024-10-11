@@ -10,9 +10,12 @@ from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from requests_cache import CachedSession
 
-from app.formata_dfs import FormataColunaAnoDuplo, FormataColunaAnoSimples
+from app.utils.formata_dfs import (
+    FormataColunaAnoDuplo,
+    FormataColunaAnoSimples,
+)
 
-logger = logging.getLogger("main.app.model")
+logger = logging.getLogger("main.app.services.consulta_bases")
 
 retry_strategy = Retry(
     total=30,
@@ -142,7 +145,8 @@ class Consultar:
         logger.debug("Consultar.executa(): Acessando url: %s", self.base.url)
         try:
 
-            http = CachedSession(expire_after=36000)
+            http = CachedSession(cache_name='storage/app/http_cache',
+                                 expire_after=36000)
             http.mount("http://", adapter)
             http.headers.update({"User-Agent": "Mozilla/5.0"})
             response = http.get(self.base.url, timeout=30, stream=True)
