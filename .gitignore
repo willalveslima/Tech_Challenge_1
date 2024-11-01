@@ -318,3 +318,4 @@ scripts_usados/
 
 # banco de dados / cache
 *.sqlite
+*.db

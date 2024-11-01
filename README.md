@@ -27,6 +27,12 @@ A API servirá para alimentar uma base de dados que futuramente será usada para
 4. **Plano de Deploy**: Desenho da arquitetura do projeto, incluindo serviços de cloud, CI/CD, etc.
 5. **MVP**: Deploy da API com um link compartilhável e repositório no GitHub.
 
+## Como executar
+
+```bash
+  uvicorn main:app --reload
+```
+
 ## Como Contribuir
 
 1. Faça um fork do repositório.

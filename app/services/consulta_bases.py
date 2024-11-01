@@ -146,7 +146,7 @@ class Consultar:
         try:
 
             http = CachedSession(cache_name='storage/app/http_cache',
-                                 expire_after=36000)
+                                 expire_after=172800)
             http.mount("http://", adapter)
             http.headers.update({"User-Agent": "Mozilla/5.0"})
             response = http.get(self.base.url, timeout=30, stream=True)

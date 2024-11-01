@@ -9,10 +9,10 @@ from fastapi import FastAPI, Request
 
 
 # Configurar o diretório de logs
-
 LOG_DIRECTORY = "storage/logs"
 
 if not os.path.exists(LOG_DIRECTORY):
+
     os.makedirs(LOG_DIRECTORY)
 
 
@@ -30,21 +30,11 @@ logging.basicConfig(
     handlers=[
         handler,
         logging.StreamHandler()
-
     ]
 )
 
-logger = logging.getLogger('main')
+logger = logging.getLogger('main.app')
 http_logger = logging.getLogger("http.logger")
-logger = logging.getLogger("main.app")
-
-# http_handler = logging.FileHandler("storage/logs/http_requests.log")
-# http_handler.setFormatter(logging.Formatter("%(asctime)s - %(message)s"))
-# http_logger.addHandler(http_handler)
-
-
-# Middleware para registrar as requisições e respostas
-
 
 
 def create_app():
@@ -54,7 +44,8 @@ def create_app():
         title="Consulta Bases de Dados Embrapa",
         version="0.0.1",
     )
-    app.include_router(authentication.router_user_v1)
+
+    app.include_router(authentication.router_user)
     app.include_router(consulta.consulta)
 
     @app.middleware("http")
