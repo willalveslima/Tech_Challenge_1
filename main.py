@@ -64,7 +64,9 @@ def create_app():
         ),
 
     )
-
+    @app.get('/')
+    def hello_world():
+        return "Hello,World"
     app.include_router(authentication.router_user)
     app.include_router(producao.producao)
     app.include_router(processamento.processamento)
