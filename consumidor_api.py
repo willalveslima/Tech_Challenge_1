@@ -8,21 +8,22 @@ print("\nIniciando a execução...")
 # URLs das APIs
 lista = [
     "producao",
-    "processamento_viniferas",
-    "processamento_americanas",
-    "processamento_mesa",
-    "processamento_sem_classi",
+    "processamento/viniferas",
+    "processamento/americanas",
+    "processamento/mesa",
+    "processamento/sem_classi",
     "comercializacao",
-    "importacao_vinhos",
-    "importacao_espumantes",
-    "importacao_uvas",
-    "importacao_passas",
-    "importacao_suco",
-    "exportacao_vinho",
-    "exportacao_espumante",
-    "exportacao_uva",
-    "exportacao_suco",
+    "importacao/vinhos",
+    "importacao/espumantes",
+    "importacao/uvas",
+    "importacao/passas",
+    "importacao/suco",
+    "exportacao/vinho",
+    "exportacao/espumante",
+    "exportacao/uva",
+    "exportacao/suco",
 ]
+
 
 URL = "http://127.0.0.1:8000/"
 
@@ -30,6 +31,7 @@ URL = "http://127.0.0.1:8000/"
 
 
 def obter_token(email, senha):
+    """Obtém o token JWT."""
     url_signin = URL + "/users/signin"
     payload = {"username": email, "password": senha}
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
@@ -46,6 +48,7 @@ def obter_token(email, senha):
 
 
 def criar_usuario(nome, email, senha):
+    """Cria um usuário."""
     url_signup = URL + "users/signup"
     payload = {
         "name": nome,
@@ -78,13 +81,16 @@ if token:
 
         try:
             # Fazendo a requisição GET para a API
-            response = requests.get(URL + endpoint,  headers=headers, timeout=30)
+            response = requests.get(
+                URL + endpoint,  headers=headers, timeout=30)
 
             # Verificando se a requisição foi bem-sucedida
             if response.status_code == 200:
                 # Convertendo a resposta JSON em um DataFrame
                 data = response.json()
-                df = pd.read_json(data)
+                print(type(data))
+
+                df = pd.DataFrame(data)
 
                 # Exibindo o head do DataFrame
                 print(df.head(10))

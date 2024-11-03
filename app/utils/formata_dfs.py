@@ -109,8 +109,8 @@ class FormataColunaAnoDuplo:
         df1_melted = df1.melt(
             id_vars=["Id", "País"],
             value_vars=value_vars,
-            var_name="Ano",
-            value_name="KG",
+            var_name="ANO",
+            value_name="Kg",
         )
 
         value_vars = df2.columns[2:]
@@ -118,12 +118,12 @@ class FormataColunaAnoDuplo:
         df2_melted = df2.melt(
             id_vars=["Id", "País"],
             value_vars=value_vars,
-            var_name="Ano",
-            value_name="US$",
+            var_name="ANO",
+            value_name="USD",
         )
 
         # Fazer o merge entre df1_melted e df2_melted
-        merged_df = pd.merge(df1_melted, df2_melted, on=["Id", "País", "Ano"])
+        merged_df = pd.merge(df1_melted, df2_melted, on=["Id", "País", "ANO"])
 
         df = merged_df.drop(columns=["Id"])
         logger.debug("Colunas tratadas com sucesso.")

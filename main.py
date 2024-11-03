@@ -2,14 +2,19 @@
 
 import logging
 import os
-
 from logging.handlers import TimedRotatingFileHandler
-from app.routers import consulta, authentication
+
+from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 
+from app.routers import (authentication, comercializacao, exportacao,
+                         importacao, processamento, producao)
+
+# carregar variáveis de ambiente
+load_dotenv()
 
 # Configurar o diretório de logs
-LOG_DIRECTORY = "storage/logs"
+LOG_DIRECTORY = os.getenv("LOG_DIRECTORY")
 
 if not os.path.exists(LOG_DIRECTORY):
 
@@ -25,8 +30,12 @@ handler.setFormatter(logging.Formatter(
 
 
 # Configurar o logging
+if eval(os.getenv("DEBUG")):
+    level = logging.DEBUG
+else:
+    level = logging.INFO
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=level,
     handlers=[
         handler,
         logging.StreamHandler()
@@ -41,12 +50,22 @@ def create_app():
     """Cria a aplicação."""
     logger.info("Criando a aplicação...")
     app = FastAPI(
-        title="Consulta Bases de Dados Embrapa",
+        title="API - Tech Challenge 1 - FIAP",
         version="0.0.1",
+        description=(
+            "API para consulta Banco de dados de uva, vinho e derivados"
+            "da Embrapa: <br>"
+            "http://vitibrasil.cnpuv.embrapa.br/index.php ."
+        ),
+
     )
 
     app.include_router(authentication.router_user)
-    app.include_router(consulta.consulta)
+    app.include_router(producao.producao)
+    app.include_router(processamento.processamento)
+    app.include_router(comercializacao.comercializacao)
+    app.include_router(importacao.importacao)
+    app.include_router(exportacao.exportacao)
 
     @app.middleware("http")
     async def log_requests(request: Request, call_next):

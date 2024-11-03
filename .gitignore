@@ -237,7 +237,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+#.env
 .venv
 env/
 venv/
@@ -319,3 +319,5 @@ scripts_usados/
 # banco de dados / cache
 *.sqlite
 *.db
+
+print_valores.txt
