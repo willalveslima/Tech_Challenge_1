@@ -19,19 +19,55 @@ A API servirá para alimentar uma base de dados que futuramente será usada para
 - Criar um plano para o deploy da API, desenhando a arquitetura do projeto desde a ingestão até a alimentação do modelo. Não é necessário elaborar um modelo de ML, mas é preciso escolher um cenário interessante em que a API possa ser utilizada.
 - Fazer um MVP realizando o deploy com um link compartilhável e um repositório no GitHub.
 
-## Estrutura do Projeto
+## Desenvolvimento do Projeto
 
-1. **API em Python**: Implementação da API utilizando frameworks como Flask ou FastAPI.
-2. **Documentação**: Utilização de ferramentas como Swagger ou Redoc para documentar a API.
-3. **Autenticação (Opcional)**: Implementação de JWT ou outro método de autenticação.
+1. **API em Python**: API implementada utilizando o frameworks FastAPI.
+2. **Documentação**: Utilizado a ferramenta Swagger embutida no framework Fastapi.
+3. **Autenticação**: Implementada autenticação JWT.
 4. **Plano de Deploy**: Desenho da arquitetura do projeto, incluindo serviços de cloud, CI/CD, etc.
-5. **MVP**: Deploy da API com um link compartilhável e repositório no GitHub.
+5. **MVP**: Deploy da API com um link compartilhável  e repositório no GitHub.
+
+## Documentação do API
+
+A Documentação da API é disponiblilizada após a execução do projeto:
+http://url_de_execução/docs
+
+ex: <http://127.0.0.1:8000/docs>
+
+## Executar Localmente
+
+```bash
+  git clone https://github.com/willalveslima/Tech_Challenge_1.git
+```
+
+## Acessar diretório do projeto
+
+```bash
+  cd Tech_Challenge_1
+```
+
+## Criar o ambiente virtural
+
+```bash
+  pythom -m venv .venv
+  source .venv/bin/activate
+```
+
+## Instalar dependências
+
+```bash
+  pip install -r requirements.txt
+```
 
 ## Como executar
 
 ```bash
   uvicorn main:app --reload
 ```
+
+## Exemplo de consumo da API
+
+O script `consumidor_api.py` demonstra a forma de consumo da API.
 
 ## Como Contribuir
 

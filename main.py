@@ -51,11 +51,15 @@ def create_app():
     logger.info("Criando a aplicação...")
     app = FastAPI(
         title="API - Tech Challenge 1 - FIAP",
-        version="0.0.1",
+        version="1.0.0",
         description=(
             "API para consulta Banco de dados de uva, vinho e derivados"
             "da Embrapa: <br>"
-            "http://vitibrasil.cnpuv.embrapa.br/index.php ."
+            '<a  href="http://vitibrasil.cnpuv.embrapa.br/index.php">'
+            'http://vitibrasil.cnpuv.embrapa.br/index.php</a> .'
+            "<br>Código fonte:"
+            '<a  href="https://github.com/willalveslima/Tech_Challenge_1">'
+            'https://github.com/willalveslima/Tech_Challenge_1</a>'
         ),
 
     )

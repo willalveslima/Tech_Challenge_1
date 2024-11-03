@@ -320,4 +320,8 @@ scripts_usados/
 *.sqlite
 *.db
 
+# arquivos de teste
 print_valores.txt
+
+# logs
+app.log.*
