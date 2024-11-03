@@ -4,6 +4,7 @@ import logging
 import os
 from logging.handlers import TimedRotatingFileHandler
 
+import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 
@@ -88,3 +89,5 @@ logger.debug("Iniciando a aplicação...")
 app = create_app()
 
 logger.debug("Aplicação criada com sucesso!")
+
+uvicorn.run(app)

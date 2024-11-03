@@ -62,8 +62,10 @@ ex: <http://127.0.0.1:8000/docs>
 ## Como executar
 
 ```bash
-  uvicorn main:app --reload
+   python .\main.py
 ```
+
+A pagina de documentação estará disponível em <http://127.0.0.1:8000/docs>
 
 ## Exemplo de consumo da API
 
