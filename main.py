@@ -14,34 +14,36 @@ from app.routers import (authentication, comercializacao, exportacao,
 # carregar variáveis de ambiente
 load_dotenv()
 
-# Configurar o diretório de logs
-LOG_DIRECTORY = os.getenv("LOG_DIRECTORY")
 
-if not os.path.exists(LOG_DIRECTORY):
+ENABLE_LOG = eval(os.getenv("ENABLE_LOG"))
 
-    os.makedirs(LOG_DIRECTORY)
+if ENABLE_LOG:
+    # Configurar o diretório de logs
+    LOG_DIRECTORY = os.getenv("LOG_DIRECTORY")
 
+    if not os.path.exists(LOG_DIRECTORY):
 
-# Configurar o TimedRotatingFileHandler
-log_file = os.path.join(LOG_DIRECTORY, "app.log")
-handler = TimedRotatingFileHandler(
-    log_file, when="midnight", interval=1, backupCount=2)
-handler.setFormatter(logging.Formatter(
-    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+        os.makedirs(LOG_DIRECTORY)
 
+    # Configurar o TimedRotatingFileHandler
+    log_file = os.path.join(LOG_DIRECTORY, "app.log")
+    handler = TimedRotatingFileHandler(
+        log_file, when="midnight", interval=1, backupCount=2)
+    handler.setFormatter(logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
 
-# Configurar o logging
-if eval(os.getenv("DEBUG")):
-    level = logging.DEBUG
-else:
-    level = logging.INFO
-logging.basicConfig(
-    level=level,
-    handlers=[
-        handler,
-        logging.StreamHandler()
-    ]
-)
+    # Configurar o logging
+    if eval(os.getenv("DEBUG")):
+        level = logging.DEBUG
+    else:
+        level = logging.INFO
+    logging.basicConfig(
+        level=level,
+        handlers=[
+            handler,
+            logging.StreamHandler()
+        ]
+    )
 
 logger = logging.getLogger('main.app')
 http_logger = logging.getLogger("http.logger")
@@ -64,6 +66,7 @@ def create_app():
         ),
 
     )
+
     @app.get('/')
     def hello_world():
         return "Hello,World"
