@@ -319,7 +319,7 @@ scripts_usados/
 # banco de dados / cache
 *.sqlite
 *.db
-
+*http_cache/
 # arquivos de teste
 print_valores.txt
 

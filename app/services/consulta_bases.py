@@ -11,6 +11,7 @@ from fastapi import HTTPException
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from requests_cache import CachedSession
+from requests_cache.backends import FileCache
 
 from app.schemas.bases import (Comercializacao, Exportacao, Importacao,
                                Processamento, Producao)
@@ -20,6 +21,7 @@ from app.utils.formata_dfs import (FormataColunaAnoDuplo,
 logger = logging.getLogger("main.app.services.consulta_bases")
 
 TIMEOUT = int(os.getenv("TIMEOUT", 30))
+CACHE_TYPE = os.getenv('CACHE_TYPE', 'disk')
 CACHE_NAME = os.getenv("CACHE_NAME", 'storage/app/http_cache')
 CACHE_EXPIRES = int(os.getenv("CACHE_EXPIRES", 172800))
 
@@ -222,7 +224,12 @@ class Consultar:
         logger.debug("Consultar.executa(): Acessando url: %s", self.base.url)
         try:
 
-            http = CachedSession(cache_name=CACHE_NAME,
+            if CACHE_TYPE == 'memory':
+                backend = "memory"
+            else:
+                backend = FileCache(cache_name=CACHE_NAME)
+
+            http = CachedSession(backend=backend,
                                  expire_after=CACHE_EXPIRES)
             http.mount("http://", adapter)
             http.headers.update({"User-Agent": "Mozilla/5.0"})
