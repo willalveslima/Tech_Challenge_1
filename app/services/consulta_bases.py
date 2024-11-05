@@ -223,14 +223,15 @@ class Consultar:
         """Executa a consulta das Bases."""
         logger.debug("Consultar.executa(): Acessando url: %s", self.base.url)
         try:
-
+            http = None
             if CACHE_TYPE == 'memory':
-                backend = "memory"
-            else:
-                backend = FileCache(cache_name=CACHE_NAME)
 
-            http = CachedSession(backend=backend,
-                                 expire_after=CACHE_EXPIRES)
+                http = CachedSession(backend="memory",
+                                     expire_after=CACHE_EXPIRES)
+            else:
+                http = CachedSession(cache_name=CACHE_NAME,
+                                     expire_after=CACHE_EXPIRES)
+
             http.mount("http://", adapter)
             http.headers.update({"User-Agent": "Mozilla/5.0"})
             response = http.get(self.base.url, timeout=TIMEOUT, stream=True)
